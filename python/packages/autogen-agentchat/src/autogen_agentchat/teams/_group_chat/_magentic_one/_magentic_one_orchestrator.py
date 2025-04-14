@@ -300,6 +300,7 @@ class MagenticOneOrchestrator(BaseGroupChatManager):
         for _ in range(self._max_json_retries):
             response = await self._model_client.create(self._get_compatible_context(context), json_output=True)
             ledger_str = response.content
+            ledger_str = ledger_str[ledger_str.find('{'):].removesuffix("```") 
             try:
                 assert isinstance(ledger_str, str)
                 progress_ledger = json.loads(ledger_str)
