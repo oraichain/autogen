@@ -148,10 +148,10 @@ class ComponentToConfig(Generic[ToConfigT]):
             description = docstring.strip()
 
         obj_config = self._to_config().model_dump(exclude_none=True)
-        # default config name for tool
-        if not "name" in obj_config:
+        # default config name for component
+        if not "name" in obj_config and self.component_label is not None:
             obj_config["name"] = self.component_label
-            
+
         model = ComponentModel(
             provider=provider,
             component_type=self.component_type,
