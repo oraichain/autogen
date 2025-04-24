@@ -95,6 +95,8 @@ Please output an answer in pure JSON format according to the following schema. T
             "answer": string
         }}
     }}
+Do not wrap the JSON in Markdown, code blocks (e.g., ```json), or any additional text. Do not include explanations, comments, or any content outside the JSON object itself.
+    
 """
 
 

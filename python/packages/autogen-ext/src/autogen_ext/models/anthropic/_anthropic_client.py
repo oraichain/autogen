@@ -518,6 +518,7 @@ class BaseAnthropicChatCompletionClient(ChatCompletionClient):
 
             if json_output is True:
                 create_args["response_format"] = {"type": "json_object"}
+                
             elif isinstance(json_output, type):
                 raise ValueError("Structured output is currently not supported for Anthropic models")
 
@@ -580,7 +581,7 @@ class BaseAnthropicChatCompletionClient(ChatCompletionClient):
                 request_args[param] = create_args[param]
 
         # Execute the request
-        future: asyncio.Task[Message] = asyncio.ensure_future(self._client.messages.create(**request_args))  # type: ignore
+        future: asyncio.Task[Message] = asyncio.ensure_future(self._client.messages.create(**request_args, thinking = {"type": "disabled"}))  # type: ignore
 
         if cancellation_token is not None:
             cancellation_token.link_future(future)  # type: ignore
@@ -750,7 +751,7 @@ class BaseAnthropicChatCompletionClient(ChatCompletionClient):
 
         # Stream the response
         stream_future: asyncio.Task[AsyncStream[RawMessageStreamEvent]] = asyncio.ensure_future(
-            cast(Coroutine[Any, Any, AsyncStream[RawMessageStreamEvent]], self._client.messages.create(**request_args))
+            cast(Coroutine[Any, Any, AsyncStream[RawMessageStreamEvent]], self._client.messages.create(**request_args, thinking = {"type": "disabled"}))
         )
 
         if cancellation_token is not None:
