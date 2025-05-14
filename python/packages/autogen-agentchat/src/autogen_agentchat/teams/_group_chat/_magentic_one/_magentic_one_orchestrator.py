@@ -325,12 +325,15 @@ class MagenticOneOrchestrator(BaseGroupChatManager):
                 for key in required_keys:
                     if (
                         key not in progress_ledger
-                        or not isinstance(progress_ledger[key], dict)
-                        or "answer" not in progress_ledger[key]
+                        or not isinstance(progress_ledger[key], dict)                        
                         or "reason" not in progress_ledger[key]
                     ):
                         key_error = True
                         break
+
+                    # default answer
+                    if "answer" not in progress_ledger[key]:
+                        progress_ledger[key]["answer"] = False
 
                 # Validate the next speaker if the task is not yet complete
                 if (
